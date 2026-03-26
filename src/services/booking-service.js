@@ -81,5 +81,15 @@ class BookingService{
         }
     
     }
+
+    async getBookingsByUser(userId){
+        try{
+            const bookings = await this.bookingRepository.getByUser(userId);
+            return bookings;
+        }catch(error){
+            // keep backend error shape consistent with existing controller logic
+            throw error;
+        }
+    }
 }
 module.exports = BookingService;

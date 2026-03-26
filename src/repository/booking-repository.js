@@ -22,6 +22,23 @@ class BookingRepository{
 
     }
 
+    async getByUser(userId){
+        try{
+            const bookings = await Booking.findAll({
+                where: { userId },
+                order: [['id', 'DESC']]
+            });
+            return bookings;
+        } catch (error){
+            throw new AppError(
+                "Repository Error",
+                "Can not fetch bookings",
+                "There qas some issue,try again later",
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
     async update(bookingId,data){
         try {
           const booking=  await Booking.findByPk(bookingId);

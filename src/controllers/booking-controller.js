@@ -25,8 +25,28 @@ class BookingController{
             err:error.explanation
         })
     }
-}
+    }
 
+    async getByUser(req,res){
+        try{
+            const { userId } = req.params;
+            const parsedUserId = parseInt(userId, 10);
+            const response = await bookingService.getBookingsByUser(parsedUserId);
+            return res.status(StatusCodes.OK).json({
+                message:"Successfully fetched bookings for user",
+                success:true,
+                data:response,
+                err:{}
+            });
+        }catch(error){
+            return res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
+                message:error.message || "Something went wrong while fetching bookings",
+                success:false,
+                data:{},
+                err:error.explanation || error
+            });
+        }
+    }
 }
 
 module.exports = BookingController
